@@ -1,0 +1,1 @@
+A refresh of the spaceshipwarrior artemis project using the libgdx maven archetype and artemis-odb.
