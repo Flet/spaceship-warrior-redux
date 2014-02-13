@@ -1,0 +1,19 @@
+<module rename-to='spaceshipwarrior'>
+    
+    <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
+    <inherits name='com.artemis.backends.artemis_backends_gwt' />
+   
+    <extend-configuration-property name="artemis.reflect.include" value="net.brokenspork.components" />
+    <extend-configuration-property name="artemis.reflect.include" value="net.brokenspork.systems" />
+    
+    <source path='core'/>
+    <source path='components'/>
+    <source path='systems'/>
+	<source path='html'/>
+
+	<public path="resources" />
+	
+	<entry-point class='net.brokenspork.html.SpaceshipWarriorHtml'/>
+	<set-configuration-property name="gdx.assetpath" value="assets" />
+	<set-configuration-property name="gdx.assetoutputpath" value="html/target/webapp" />
+</module>
