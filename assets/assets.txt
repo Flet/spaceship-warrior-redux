@@ -24,7 +24,7 @@ i:images-packed/pack-1.png:20952:image/png
 t:images-packed/pack.atlas:821:application/unknown
 i:libgdx-logo.png:78970:image/png
 t:pom.xml:1686:application/xml
-t:rebel.xml:390:application/xml
+t:rebel.xml:380:application/xml
 d:sounds:0:application/unknown
 a:sounds/asplode.wav:45378:audio/x-wav
 a:sounds/pew.wav:10354:audio/x-wav
