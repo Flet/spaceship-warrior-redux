@@ -16,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
@@ -35,12 +36,14 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	private float destinationX, destinationY;
 	private OrthographicCamera camera;
 	private Vector3 mouseVector;
+	private Rectangle viewport;
 	
 	@SuppressWarnings("unchecked")
-    public PlayerInputSystem(OrthographicCamera camera) {
+    public PlayerInputSystem(OrthographicCamera camera, Rectangle viewport) {
 		super(Aspect.getAspectForAll(Position.class, Velocity.class, Player.class));
 		this.camera = camera;
-		this.mouseVector = new Vector3();
+		this.mouseVector = new Vector3(Gdx.input.getX(), Gdx.input.getY(),0);
+		this.viewport = viewport;
 	}
 	
 	@Override
@@ -54,7 +57,7 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		Velocity velocity = vm.get(e);
 		
 		mouseVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-		camera.unproject(mouseVector);
+		camera.unproject(mouseVector, viewport.getX(), viewport.getY(), viewport.getWidth(), viewport.getHeight());
 		
 		destinationX = mouseVector.x;
 		destinationY = mouseVector.y;
@@ -167,6 +170,10 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
+    }
+
+	public void setViewport(Rectangle viewport) {
+	    this.viewport = viewport;
     }
 
 }
