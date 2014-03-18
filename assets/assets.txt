@@ -1,5 +1,6 @@
 d:html/target/webapp/:0:application/unknown
 b:.classpath:563:application/unknown
+b:.gitignore:22:application/unknown
 b:.project:576:application/unknown
 d:.settings:0:application/unknown
 b:.settings/org.eclipse.jdt.core.prefs:243:application/unknown
@@ -21,7 +22,8 @@ i:images/particle.png:930:image/png
 i:images/star.png:1118:image/png
 d:images-packed:0:application/unknown
 i:images-packed/pack-1.png:20952:image/png
-t:images-packed/pack.atlas:821:application/unknown
+t:images-packed/pack.atlas:819:application/unknown
+i:images-packed/pack.png:20952:image/png
 i:libgdx-logo.png:78970:image/png
 t:pom.xml:1686:application/xml
 t:rebel.xml:380:application/xml
