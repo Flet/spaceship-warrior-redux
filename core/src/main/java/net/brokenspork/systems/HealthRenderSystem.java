@@ -6,7 +6,7 @@ import net.brokenspork.components.Position;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,9 +17,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
+@Wire
 public class HealthRenderSystem extends EntityProcessingSystem {
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Health> hm;
+	private ComponentMapper<Position> pm;
+	private ComponentMapper<Health> hm;
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;

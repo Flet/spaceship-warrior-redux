@@ -12,16 +12,18 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Utils;
 
+@Wire
 public class CollisionSystem extends EntitySystem {
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Bounds> bm;
-	@Mapper ComponentMapper<Health> hm;
-	@Mapper ComponentMapper<Expires> ex;
+	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Bounds> boundsMapper;
+	private ComponentMapper<Health> healthMapper;
+	private ComponentMapper<Expires> ex;
 	
 	private Bag<CollisionPair> collisionPairs;
 
@@ -36,7 +38,7 @@ public class CollisionSystem extends EntitySystem {
 		collisionPairs.add(new CollisionPair(Constants.Groups.PLAYER_BULLETS, Constants.Groups.ENEMY_SHIPS, new CollisionHandler() {
 			@Override
 			public void handleCollision(Entity bullet, Entity ship) {
-				Position bp = pm.get(bullet);
+				Position bp = positionMapper.get(bullet);
 				EntityFactory.createSmallExplosion(world, bp.x, bp.y).addToWorld();
 				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y).addToWorld();
 				
@@ -49,8 +51,8 @@ public class CollisionSystem extends EntitySystem {
 				//    bulletExpires.delay = -1;
 				//}
 
-				Health health = hm.get(ship);
-				Position position = pm.get(ship);
+				Health health = healthMapper.get(ship);
+				Position position = positionMapper.get(ship);
 				health.health -= 1;
 				if(health.health < 0) {
 					health.health = 0;
@@ -105,11 +107,11 @@ public class CollisionSystem extends EntitySystem {
 		    }
 		    
 		    //NPE!!!
-			Position p1 = pm.get(e1);
-			Position p2 = pm.get(e2);
+			Position p1 = positionMapper.get(e1);
+			Position p2 = positionMapper.get(e2);
 			
-			Bounds b1 = bm.get(e1);
-			Bounds b2 = bm.get(e2);
+			Bounds b1 = boundsMapper.get(e1);
+			Bounds b2 = boundsMapper.get(e2);
 			
 			return Utils.distance(p1.x, p1.y, p2.x, p2.y)-b1.radius < b2.radius;
 		}

@@ -5,12 +5,12 @@ import net.brokenspork.components.Expires;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.DelayedEntityProcessingSystem;
 
+@Wire
 public class ExpiringSystem extends DelayedEntityProcessingSystem {
-	@Mapper
-	ComponentMapper<Expires> em;
+	private ComponentMapper<Expires> expirationMapper;
 
 	@SuppressWarnings("unchecked")
     public ExpiringSystem() {
@@ -19,7 +19,7 @@ public class ExpiringSystem extends DelayedEntityProcessingSystem {
 	
 	@Override
 	protected void processDelta(Entity e, float accumulatedDelta) {
-		Expires expires = em.get(e);
+		Expires expires = expirationMapper.get(e);
 		expires.delay -= accumulatedDelta;
 	}
 
@@ -30,7 +30,7 @@ public class ExpiringSystem extends DelayedEntityProcessingSystem {
 	
 	@Override
 	protected float getRemainingDelay(Entity e) {
-		Expires expires = em.get(e);
+		Expires expires = expirationMapper.get(e);
 		return expires.delay;
 	}
 }

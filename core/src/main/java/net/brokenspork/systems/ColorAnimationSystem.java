@@ -6,12 +6,13 @@ import net.brokenspork.components.Sprite;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 
+@Wire
 public class ColorAnimationSystem extends EntityProcessingSystem {
-	@Mapper ComponentMapper<ColorAnimation> cam;
-	@Mapper ComponentMapper<Sprite> sm;
+	private ComponentMapper<ColorAnimation> cam;
+	private ComponentMapper<Sprite> sm;
 
 	public ColorAnimationSystem() {
 		super(Aspect.getAspectForAll(ColorAnimation.class, Sprite.class));
