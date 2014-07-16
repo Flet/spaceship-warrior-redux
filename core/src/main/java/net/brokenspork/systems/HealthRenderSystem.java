@@ -19,8 +19,8 @@ import com.badlogic.gdx.math.MathUtils;
 
 @Wire
 public class HealthRenderSystem extends EntityProcessingSystem {
-	private ComponentMapper<Position> pm;
-	private ComponentMapper<Health> hm;
+	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Health> healthMapper;
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
@@ -51,8 +51,8 @@ public class HealthRenderSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		Position position = pm.get(e);
-		Health health = hm.get(e);
+		Position position = positionMapper.get(e);
+		Health health = healthMapper.get(e);
 		
 		int percentage = MathUtils.round(health.health/health.maximumHealth*100f);
 		

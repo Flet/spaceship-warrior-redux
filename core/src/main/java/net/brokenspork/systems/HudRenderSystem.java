@@ -2,12 +2,9 @@ package net.brokenspork.systems;
 
 import java.util.HashMap;
 
-import net.brokenspork.components.Position;
-import net.brokenspork.components.Sprite;
 import net.brokenspork.core.Constants;
 
-import com.artemis.ComponentMapper;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,11 +16,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+@Wire
 public class HudRenderSystem extends VoidEntitySystem {
-	@Mapper
-	ComponentMapper<Position> pm;
-	@Mapper
-	ComponentMapper<Sprite> sm;
 
 	private HashMap<String, AtlasRegion> regions;
 	private TextureAtlas textureAtlas;
