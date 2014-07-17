@@ -9,7 +9,7 @@
 	<name>SpaceshipWarrior Parent</name>
 
 	<properties>
-		<artemis.version>0.6.4-SNAPSHOT</artemis.version>
+		<artemis.version>0.6.5</artemis.version>
 		<gdx.version>1.2.0</gdx.version>
 		<gdx-tools.version>1.1.0</gdx-tools.version>
 		<android.version>4.1.1.4</android.version>
