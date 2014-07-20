@@ -6,14 +6,13 @@ import net.brokenspork.components.Sprite;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 
+@Wire
 public class ScaleAnimationSystem extends EntityProcessingSystem {
-	@Mapper
-	ComponentMapper<ScaleAnimation> sa;
-	@Mapper
-	ComponentMapper<Sprite> sm;
+	ComponentMapper<ScaleAnimation> scaleAnimationMapper;
+	ComponentMapper<Sprite> spriteMapper;
 
 	@SuppressWarnings("unchecked")
     public ScaleAnimationSystem() {
@@ -22,9 +21,9 @@ public class ScaleAnimationSystem extends EntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		ScaleAnimation scaleAnimation = sa.get(e);
+		ScaleAnimation scaleAnimation = scaleAnimationMapper.get(e);
 		if (scaleAnimation.active) {
-			Sprite sprite = sm.get(e);
+			Sprite sprite = spriteMapper.get(e);
 
 			sprite.scaleX += scaleAnimation.speed * world.delta;
 			sprite.scaleY = sprite.scaleX;

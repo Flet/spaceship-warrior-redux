@@ -8,7 +8,7 @@ import net.brokenspork.core.EntityFactory;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.TrigLUT;
 import com.artemis.utils.Utils;
@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+@Wire
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
 	private static final float HorizontalThrusters = 300;
 	private static final float HorizontalMaxSpeed = 300;
@@ -26,8 +27,8 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	private static final float VerticalMaxSpeed = 200;
 	private static final float FireRate = 0.1f;
 	
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Velocity> vm;
+	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Velocity> velocityMapper;
 	
 	private boolean up, down, left, right;
 	private boolean shoot;
@@ -53,8 +54,8 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
 	@Override
 	protected void process(Entity e) {
-		Position position = pm.get(e);
-		Velocity velocity = vm.get(e);
+		Position position = positionMapper.get(e);
+		Velocity velocity = velocityMapper.get(e);
 		
 		mouseVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		camera.unproject(mouseVector, viewport.getX(), viewport.getY(), viewport.getWidth(), viewport.getHeight());

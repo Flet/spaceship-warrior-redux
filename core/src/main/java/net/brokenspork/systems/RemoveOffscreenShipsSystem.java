@@ -10,12 +10,13 @@ import net.brokenspork.core.Constants;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.IntervalEntityProcessingSystem;
 
+@Wire
 public class RemoveOffscreenShipsSystem extends IntervalEntityProcessingSystem {
-	@Mapper ComponentMapper<Position> pm;
-	@Mapper ComponentMapper<Bounds> bm;
+	private ComponentMapper<Position> positionMapper;
+	private ComponentMapper<Bounds> boundsMapper;
 
 	@SuppressWarnings("unchecked")
     public RemoveOffscreenShipsSystem() {
@@ -24,8 +25,8 @@ public class RemoveOffscreenShipsSystem extends IntervalEntityProcessingSystem {
 
 	@Override
 	protected void process(Entity e) {
-		Position position = pm.get(e);
-		Bounds bounds = bm.get(e);
+		Position position = positionMapper.get(e);
+		Bounds bounds = boundsMapper.get(e);
 		
 		if(position.y < -Constants.FRAME_HEIGHT/2-bounds.radius) {
 			e.deleteFromWorld();

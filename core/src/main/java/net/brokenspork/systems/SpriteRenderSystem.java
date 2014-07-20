@@ -13,7 +13,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.artemis.annotations.Mapper;
+import com.artemis.annotations.Wire;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
@@ -26,11 +26,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+@Wire
 public class SpriteRenderSystem extends EntitySystem {
-	@Mapper
-	ComponentMapper<Position> pm;
-	@Mapper
-	ComponentMapper<Sprite> sm;
+	ComponentMapper<Position> positionMapper;
+	ComponentMapper<Sprite> spriteMapper;
 
 	private HashMap<String, AtlasRegion> regions;
 	private TextureAtlas textureAtlas;
@@ -87,9 +86,9 @@ public class SpriteRenderSystem extends EntitySystem {
 	}
 
 	protected void process(Entity e) {
-		if (pm.has(e)) {
-			Position position = pm.getSafe(e);
-			Sprite sprite = sm.get(e);
+		if (positionMapper.has(e)) {
+			Position position = positionMapper.getSafe(e);
+			Sprite sprite = spriteMapper.get(e);
 
 			AtlasRegion spriteRegion = regionsByEntity.get(e.getId());
 			batch.setColor(sprite.r, sprite.g, sprite.b, sprite.a);
@@ -108,7 +107,7 @@ public class SpriteRenderSystem extends EntitySystem {
 
 	@Override
 	protected void inserted(Entity e) {
-		Sprite sprite = sm.get(e);
+		Sprite sprite = spriteMapper.get(e);
 		regionsByEntity.set(e.getId(), regions.get(sprite.name));
 
 		sortedEntities.add(e);
@@ -116,8 +115,8 @@ public class SpriteRenderSystem extends EntitySystem {
 		Collections.sort(sortedEntities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity e1, Entity e2) {
-				Sprite s1 = sm.get(e1);
-				Sprite s2 = sm.get(e2);
+				Sprite s1 = spriteMapper.get(e1);
+				Sprite s2 = spriteMapper.get(e2);
 				return s1.layer.compareTo(s2.layer);
 			}
 		});
