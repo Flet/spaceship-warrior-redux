@@ -16,7 +16,6 @@ import net.brokenspork.systems.SpriteRenderSystem;
 
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -28,7 +27,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen implements Screen {
 
-	private Game game;
 	private World world;
 	private OrthographicCamera camera;
 
@@ -41,9 +39,8 @@ public class GameScreen implements Screen {
 
 	private static final float ASPECT_RATIO = (float) Constants.FRAME_WIDTH / (float) Constants.FRAME_HEIGHT;
 
-	public GameScreen(Game game) {
+	public GameScreen() {
 		this.batch = new SpriteBatch();
-		this.game = game;
 		this.camera = new OrthographicCamera(Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT);
 
 		world = new World();

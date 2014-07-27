@@ -10,27 +10,21 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.utils.TrigLUT;
-import com.artemis.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 @Wire
 public class PlayerInputSystem extends EntityProcessingSystem implements InputProcessor {
-	private static final float HorizontalThrusters = 300;
-	private static final float HorizontalMaxSpeed = 300;
-	private static final float VerticalThrusters = 200;
-	private static final float VerticalMaxSpeed = 200;
 	private static final float FireRate = 0.1f;
 	
 	private ComponentMapper<Position> positionMapper;
-	private ComponentMapper<Velocity> velocityMapper;
 	
-	private boolean up, down, left, right;
 	private boolean shoot;
 	private float timeToFire;
 	
@@ -38,6 +32,8 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	private OrthographicCamera camera;
 	private Vector3 mouseVector;
 	private Rectangle viewport;
+	
+	private Vector2 tmp = new Vector2();
 	
 	@SuppressWarnings("unchecked")
     public PlayerInputSystem(OrthographicCamera camera, Rectangle viewport) {
@@ -55,7 +51,6 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	@Override
 	protected void process(Entity e) {
 		Position position = positionMapper.get(e);
-		Velocity velocity = velocityMapper.get(e);
 		
 		mouseVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		camera.unproject(mouseVector, viewport.getX(), viewport.getY(), viewport.getWidth(), viewport.getHeight());
@@ -63,28 +58,14 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		destinationX = mouseVector.x;
 		destinationY = mouseVector.y;
 		
-		float angleInRadians = Utils.angleInRadians(position.x, position.y, destinationX, destinationY);
+		tmp.set(position.x, position.y).sub(destinationX, destinationY);
+		float angleInRadians = tmp.angleRad();
 		
-		position.x += TrigLUT.cos(angleInRadians) * 500f * world.getDelta();
-		position.y += TrigLUT.sin(angleInRadians) * 500f * world.getDelta();
+		position.x += MathUtils.cos(angleInRadians) * 500f * world.delta;
+		position.y += MathUtils.sin(angleInRadians) * 500f * world.delta;
 		
 		position.x = mouseVector.x;
 		position.y = mouseVector.y;
-		
-		/*
-		if(up) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY+(world.getDeltaFloat()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
-		}
-		if(down) {
-			velocity.vectorY = MathUtils.clamp(velocity.vectorY-(world.getDeltaFloat()*VerticalThrusters), -VerticalMaxSpeed, VerticalMaxSpeed);
-		}
-		
-		if(left) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX-(world.getDeltaFloat()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
-		}
-		if(right) {
-			velocity.vectorX = MathUtils.clamp(velocity.vectorX+(world.getDeltaFloat()*HorizontalThrusters), -HorizontalMaxSpeed, HorizontalMaxSpeed);
-		}*/
 		
 		if(shoot) {
 			if(timeToFire <= 0) {
@@ -103,37 +84,11 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Input.Keys.A) {
-			left = true;
-		}
-		else if(keycode == Input.Keys.D) {
-			right = true;
-		}
-		else if(keycode == Input.Keys.W) {
-			up = true;
-		}
-		else if(keycode == Input.Keys.S) {
-			down = true;
-		}
-		
 		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(keycode == Input.Keys.A) {
-			left = false;
-		}
-		else if(keycode == Input.Keys.D) {
-			right = false;
-		}
-		else if(keycode == Input.Keys.W) {
-			up = false;
-		}
-		else if(keycode == Input.Keys.S) {
-			down = false;
-		}
-		
 		return true;
 	}
 

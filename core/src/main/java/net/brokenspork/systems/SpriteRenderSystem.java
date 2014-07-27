@@ -101,6 +101,7 @@ public class SpriteRenderSystem extends EntitySystem {
 		}
 	}
 
+	@Override
 	protected void end() {
 		batch.end();
 	}

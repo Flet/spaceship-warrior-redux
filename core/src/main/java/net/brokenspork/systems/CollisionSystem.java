@@ -1,7 +1,6 @@
 package net.brokenspork.systems;
 
 import net.brokenspork.components.Bounds;
-import net.brokenspork.components.Expires;
 import net.brokenspork.components.Health;
 import net.brokenspork.components.Position;
 import net.brokenspork.core.Constants;
@@ -11,22 +10,21 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.artemis.annotations.Mapper;
 import com.artemis.annotations.Wire;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
-import com.artemis.utils.Utils;
+import com.badlogic.gdx.math.Vector2;
 
 @Wire
 public class CollisionSystem extends EntitySystem {
 	private ComponentMapper<Position> positionMapper;
 	private ComponentMapper<Bounds> boundsMapper;
 	private ComponentMapper<Health> healthMapper;
-	private ComponentMapper<Expires> ex;
 	
 	private Bag<CollisionPair> collisionPairs;
-
+	
+	@SuppressWarnings("unchecked")
 	public CollisionSystem() {
 		super(Aspect.getAspectForAll(Position.class, Bounds.class));
 	}
@@ -45,10 +43,10 @@ public class CollisionSystem extends EntitySystem {
 				//TODO: calling bullet.deleteFromWorld() was causing null pointer exceptions in ExpiringSystem and CollisionStstem because it did not exist anymore. 
 				//TODO: This did not happen in vanilla artemis.
 				//TODO: is this a Is this a bug in artemis-odb's DelayedEntityProcessingSystem?
-			    bullet.deleteFromWorld();
+				bullet.deleteFromWorld();
 				//Expires bulletExpires = ex.get(bullet);
 				//if(bulletExpires != null) {
-				//    bulletExpires.delay = -1;
+				//	bulletExpires.delay = -1;
 				//}
 
 				Health health = healthMapper.get(ship);
@@ -101,19 +99,19 @@ public class CollisionSystem extends EntitySystem {
 		}
 		
 		private boolean collisionExists(Entity e1, Entity e2) {
-		    
-		    if(e1 == null || e2 == null) {
-		        return false;
-		    }
-		    
-		    //NPE!!!
+			
+			if(e1 == null || e2 == null) {
+				return false;
+			}
+			
+			//NPE!!!
 			Position p1 = positionMapper.get(e1);
 			Position p2 = positionMapper.get(e2);
 			
 			Bounds b1 = boundsMapper.get(e1);
 			Bounds b2 = boundsMapper.get(e2);
-			
-			return Utils.distance(p1.x, p1.y, p2.x, p2.y)-b1.radius < b2.radius;
+
+			return (Vector2.len(p1.x - p2.x, p1.y - p2.y) - b1.radius) < b2.radius;
 		}
 	}
 	

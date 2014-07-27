@@ -4,12 +4,12 @@ import com.badlogic.gdx.Game;
 
 public class SpaceshipWarrior extends Game {
 
-    GameScreen gameScreen;
+	private GameScreen gameScreen;
 
-    @Override
-    public void create() {
-        this.gameScreen = new GameScreen(this);
-        setScreen(gameScreen);
-    }
+	@Override
+	public void create() {
+		this.gameScreen = new GameScreen();
+		setScreen(gameScreen);
+	}
 
 }
