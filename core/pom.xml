@@ -41,6 +41,34 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.github.junkdog</groupId>
+				<artifactId>libgdx-packer-maven-plugin</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>pack</goal>
+						</goals>
+						<!-- example configuration 
+						<configuration>
+							~~~ Where to look for raw sprites, default value given below ~~~
+							<assetFolder>src/main/sprites</assetFolder>
+							~~~ Name of pack file, default value given below ~~~
+							<packName>atlas</packName>
+							<packer>
+								<jpegQuality>0.92</jpegQuality>
+								<fast>true</fast>
+								<format>RGBA4444</format>
+								<wrapX>MirroredRepeat</wrapX>
+								<scale>1.0, 2.2</scale>
+								<filterMin>MipMap</filterMin>
+							</packer>
+						</configuration>
+						-->
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

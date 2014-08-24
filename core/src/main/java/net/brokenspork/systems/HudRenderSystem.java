@@ -32,7 +32,7 @@ public class HudRenderSystem extends VoidEntitySystem {
 	@Override
 	protected void initialize() {
 		regions = new HashMap<String, AtlasRegion>();
-		textureAtlas = new TextureAtlas("images-packed/pack.atlas");
+		textureAtlas = new TextureAtlas("pack.atlas");
 		for (AtlasRegion r : textureAtlas.getRegions()) {
 			regions.put(r.name, r);
 		}
