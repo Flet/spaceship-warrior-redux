@@ -25,7 +25,7 @@ public class SoundEffectSystem extends EntityProcessingSystem {
 	}
 
 	@Override
-    protected void process(Entity e) {
+	protected void process(Entity e) {
 
 		SoundEffect soundEffect = se.get(e);
 		
@@ -43,7 +43,6 @@ public class SoundEffectSystem extends EntityProcessingSystem {
 			break;
 		}
 
-		e.removeComponent(soundEffect);
-		e.changedInWorld();
-    }
+		e.edit().removeComponent(soundEffect);
+	}
 }

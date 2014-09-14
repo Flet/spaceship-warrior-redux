@@ -25,6 +25,8 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 	
 	private ComponentMapper<Position> positionMapper;
 	
+	private EntityFactory entityFactory;
+	
 	private boolean shoot;
 	private float timeToFire;
 	
@@ -69,8 +71,8 @@ public class PlayerInputSystem extends EntityProcessingSystem implements InputPr
 		
 		if(shoot) {
 			if(timeToFire <= 0) {
-				EntityFactory.createPlayerBullet(world, position.x-27, position.y+2).addToWorld();
-				EntityFactory.createPlayerBullet(world, position.x+27, position.y+2).addToWorld();
+				entityFactory.createPlayerBullet(position.x-27, position.y+2);
+				entityFactory.createPlayerBullet(position.x+27, position.y+2);
 				timeToFire = FireRate;
 			}
 		}

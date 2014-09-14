@@ -46,6 +46,7 @@ public class GameScreen implements Screen {
 		world = new World();
 
 		world.setManager(new GroupManager());
+		EntityFactory entityFactory = world.setManager(new EntityFactory());
 		world.setSystem(new MovementSystem());
 		this.playerInputSystem = new PlayerInputSystem(camera, viewport);
 		world.setSystem(playerInputSystem);
@@ -64,10 +65,10 @@ public class GameScreen implements Screen {
 
 		world.initialize();
 
-		EntityFactory.createPlayer(world, 0, 0).addToWorld();
+		entityFactory.createPlayer(0, 0);
 
 		for (int i = 0; 500 > i; i++) {
-			EntityFactory.createStar(world).addToWorld();
+			entityFactory.createStar();
 		}
 
 	}

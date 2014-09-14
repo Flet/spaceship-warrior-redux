@@ -14,14 +14,16 @@ import net.brokenspork.components.Velocity;
 import net.brokenspork.components.SoundEffect.EFFECT;
 
 import com.artemis.Entity;
+import com.artemis.EntityEdit;
+import com.artemis.Manager;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.badlogic.gdx.math.MathUtils;
 
-public class EntityFactory {
+public class EntityFactory extends Manager {
 	
-	public static Entity createPlayer(World world, float x, float y) {
-		Entity e = world.createEntity();
+	public Entity createPlayer(float x, float y) {
+		EntityEdit e = world.createEntity().edit();
 		
 		Position position = new Position();
 		position.x = x;
@@ -47,13 +49,13 @@ public class EntityFactory {
 		
 		e.addComponent(new Player());
 		
-		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER_SHIP);
+		world.getManager(GroupManager.class).add(e.getEntity(), Constants.Groups.PLAYER_SHIP);
 		
-		return e;
+		return e.getEntity();
 	}
 	
-	public static Entity createPlayerBullet(World world, float x, float y) {
-		Entity e = world.createEntity();
+	public Entity createPlayerBullet(float x, float y) {
+		EntityEdit e = world.createEntity().edit();
 		
 		Position position = new Position();
 		position.x = x;
@@ -81,13 +83,13 @@ public class EntityFactory {
 		sf.effect = EFFECT.PEW;
 		e.addComponent(sf);
 		
-		world.getManager(GroupManager.class).add(e, Constants.Groups.PLAYER_BULLETS);
+		world.getManager(GroupManager.class).add(e.getEntity(), Constants.Groups.PLAYER_BULLETS);
 		
-		return e;
+		return e.getEntity();
 	}
 	
-	public static Entity createEnemyShip(World world, String name, Sprite.Layer layer, float health, float x, float y, float velocityX, float velocityY, float boundsRadius) {
-		Entity e = world.createEntity();
+	public Entity createEnemyShip(String name, Sprite.Layer layer, float health, float x, float y, float velocityX, float velocityY, float boundsRadius) {
+		EntityEdit e = world.createEntity().edit();
 		
 		Position position = new Position();
 		position.x = x;
@@ -115,33 +117,33 @@ public class EntityFactory {
 		h.health = h.maximumHealth = health;
 		e.addComponent(h);
 		
-		world.getManager(GroupManager.class).add(e, Constants.Groups.ENEMY_SHIPS);
+		world.getManager(GroupManager.class).add(e.getEntity(), Constants.Groups.ENEMY_SHIPS);
 		
-		return e;
+		return e.getEntity();
 	}
 	
-	public static Entity createSmallExplosion(World world, float x, float y) {
-		Entity e = createExplosion(world, x, y, 0.1f);
+	public Entity createSmallExplosion(float x, float y) {
+		EntityEdit e = createExplosion(x, y, 0.1f);
 		
 		SoundEffect sf = new SoundEffect();
 		sf.effect = EFFECT.SMALLASPLODE;
 		e.addComponent(sf);
 		
 		
-		return e;
+		return e.getEntity();
 	}
-	public static Entity createBigExplosion(World world, float x, float y) {
-		Entity e = createExplosion(world, x, y, 0.5f);
+	public Entity createBigExplosion(float x, float y) {
+		EntityEdit e = createExplosion(x, y, 0.5f);
 		
 		SoundEffect sf = new SoundEffect();
 		sf.effect = EFFECT.ASPLODE;
 		e.addComponent(sf);
 		
-		return e;
+		return e.getEntity();
 	}
 	
-	public static Entity createExplosion(World world, float x, float y, float scale) {
-		Entity e = world.createEntity();
+	private EntityEdit createExplosion(float x, float y, float scale) {
+		EntityEdit e = world.createEntity().edit();
 		
 		Position position = new Position();
 		position.x = x;
@@ -173,8 +175,8 @@ public class EntityFactory {
 		return e;
 	}	
 	
-	public static Entity createStar(World world) {
-		Entity e = world.createEntity();
+	public Entity createStar() {
+		EntityEdit e = world.createEntity().edit();
 		
 		Position position = new Position();
 		position.x = MathUtils.random(-Constants.FRAME_WIDTH/2, Constants.FRAME_WIDTH/2);
@@ -202,11 +204,11 @@ public class EntityFactory {
 		colorAnimation.alphaMax = 0.5f;
 		e.addComponent(colorAnimation);
 		
-		return e;
+		return e.getEntity();
 	}
 	
-	public static Entity createParticle(World world, float x, float y) {
-		Entity e = world.createEntity();
+	public Entity createParticle(float x, float y) {
+		EntityEdit e = world.createEntity().edit();
 		
 		Position position = new Position();
 		position.x = x;
@@ -243,7 +245,7 @@ public class EntityFactory {
 		colorAnimation.repeat = false;
 		e.addComponent(colorAnimation);
 
-		return e;
+		return e.getEntity();
 	}
 
 }

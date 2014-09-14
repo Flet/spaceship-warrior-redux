@@ -22,6 +22,8 @@ public class CollisionSystem extends EntitySystem {
 	private ComponentMapper<Bounds> boundsMapper;
 	private ComponentMapper<Health> healthMapper;
 	
+	private EntityFactory entityFactory;
+	
 	private Bag<CollisionPair> collisionPairs;
 	
 	@SuppressWarnings("unchecked")
@@ -37,8 +39,8 @@ public class CollisionSystem extends EntitySystem {
 			@Override
 			public void handleCollision(Entity bullet, Entity ship) {
 				Position bp = positionMapper.get(bullet);
-				EntityFactory.createSmallExplosion(world, bp.x, bp.y).addToWorld();
-				for(int i = 0; 4 > i; i++) EntityFactory.createParticle(world, bp.x, bp.y).addToWorld();
+				entityFactory.createSmallExplosion(bp.x, bp.y);
+				for(int i = 0; 4 > i; i++) entityFactory.createParticle(bp.x, bp.y);
 				
 				//TODO: calling bullet.deleteFromWorld() was causing null pointer exceptions in ExpiringSystem and CollisionStstem because it did not exist anymore. 
 				//TODO: This did not happen in vanilla artemis.
@@ -55,7 +57,7 @@ public class CollisionSystem extends EntitySystem {
 				if(health.health < 0) {
 					health.health = 0;
 					ship.deleteFromWorld();
-					EntityFactory.createBigExplosion(world, position.x, position.y).addToWorld();
+					entityFactory.createBigExplosion(position.x, position.y);
 				}
 			}
 		}));
